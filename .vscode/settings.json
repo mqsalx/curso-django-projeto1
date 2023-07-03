@@ -4,4 +4,6 @@
     },
     "python.formatting.provider": "none",
     "python.testing.unittestEnabled": false, // ms-python.python
+    "window.zoomLevel": 0,
+    "editor.fontSize": 14,
 }
