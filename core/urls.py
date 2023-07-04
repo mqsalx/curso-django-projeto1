@@ -26,6 +26,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('recipes.urls')),
+    path('authors/', include('authors.urls')),
 ]
 
 # permitindo a exibição de arquivos e media no navegador
