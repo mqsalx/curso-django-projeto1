@@ -1,7 +1,7 @@
+import re
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-import re
 
 
 def add_attr(field, attr_name, attr_new_val):
@@ -46,11 +46,14 @@ class RegisterForm(forms.ModelForm):
             'Password must have at least one uppercase letter, '
             'one lowercase letter and one number. The length should be '
             'at least 8 characters.'
-        )
+        ),
+        validators=[strong_password],
+        label='Password'
     )
     password2 = forms.CharField(
         required=True,
-        widget=forms.PasswordInput()
+        widget=forms.PasswordInput(),
+        label='Password2'
     )
 
     class Meta:
@@ -61,47 +64,21 @@ class RegisterForm(forms.ModelForm):
             'username',
             'email',
             'password',
-            ]
-        # exclude = ['first_name']
+        ]
         labels = {
-            'first_name': 'First Name',
-            'last_name': 'Last name',
             'username': 'Username',
-            'email': 'Email',
-            'password': 'Password',
+            'first_name': 'First name',
+            'last_name': 'Last name',
+            'email': 'E-mail',
         }
         help_texts = {
-            'email': 'The e-mail must be vaild',
+            'email': 'The e-mail must be valid.',
         }
         error_messages = {
             'username': {
                 'required': 'This field must not be empty',
-                }
+            }
         }
-
-    def clean_password(self):
-        data = self.cleaned_data.get('password')
-
-        if 'atenção' in data:
-            raise ValidationError(
-                'Não digite %(pipoca)s no campo password',
-                code='invalid',
-                params={'pipoca': '"atenção"'}
-            )
-
-        return data
-
-    def clean_first_name(self):
-        data = self.cleaned_data.get('first_name')
-
-        if 'John Doe' in data:
-            raise ValidationError(
-                'Não digite %(value)s no campo first name',
-                code='invalid',
-                params={'value': '"John Doe"'}
-            )
-
-        return data
 
     def clean(self):
         cleaned_data = super().clean()
